@@ -5,6 +5,7 @@ global $db;
 
 const NAME_REQUIRED = 'Vul je naam in';
 const MIN_BET_REQUIRED = 'Vul een minimale inzet in';
+const MIN_BET_POSITIVE = 'De minimale inzet moet een positief getal zijn';
 
 $errors = [];
 $inputs = [];
@@ -20,8 +21,8 @@ if (isset($_POST['submit'])){
 
     $minBet = filter_input(INPUT_POST, 'min-bet', FILTER_VALIDATE_INT);
 
-    if (empty($minBet)){
-        $errors['min-bet'] = MIN_BET_REQUIRED;
+    if ($minBet === false || $minBet === null || $minBet < 0){
+        $errors['min-bet'] = $minBet < 0 ? MIN_BET_POSITIVE : MIN_BET_REQUIRED;
     } else{
         $inputs['min-bet'] = $minBet;
     }
